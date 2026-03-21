@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, generics
 from.models import Problem, UserProblem, UserStats
-from .serializers import ProblemSerializer, UserProblemSerializer
+from .serializers import ProblemSerializer, UserProblemSerializer, UserStatsSerializer
 from rest_framework.permissions import IsAdminUser, AllowAny, IsAuthenticated
 from rest_framework.exceptions import ValidationError
 from .pagination import UserProblemPagination
@@ -91,7 +91,7 @@ class UserProblemListCreateAPIView(generics.ListCreateAPIView):
         
     
 
-class UserProblemDetailView(generics.RetrieveDestroyAPIView):
+class UserProblemDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserProblemSerializer
     permission_classes = [IsAuthenticated]
 
@@ -100,3 +100,9 @@ class UserProblemDetailView(generics.RetrieveDestroyAPIView):
 
         return queryset    
 
+class UserStatsView(generics.RetrieveAPIView):
+    serializer_class = UserStatsSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return UserStats.objects.get(user =self.request.user)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import UserProblem, Problem
+from .models import UserProblem, Problem, UserStats
 
 class ProblemSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,3 +14,7 @@ class UserProblemSerializer(serializers.ModelSerializer):
         fields = ['id','problem_id','problem', 'status', 'updated_at']    
 
 
+class UserStatsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserStats
+        fields = ['problems_attempted']
